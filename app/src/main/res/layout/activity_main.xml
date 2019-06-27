@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.matchuphistory.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/vs"
+            app:layout_constraintEnd_toStartOf="@+id/team2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/team1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/team1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:entries="@{viewModel.teams}"
+            app:onItemSelected="@{(str) -> viewModel.onItemTeam1Changed(str)}"
+            />
+
+        <Spinner
+            android:id="@+id/team2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/btn_query"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:entries="@{viewModel.opponents}"
+            app:onItemSelected="@{(str) -> viewModel.onItemTeam2Changed(str)}"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> viewModel.onQueryClick()}"
+            android:src="@android:drawable/ic_menu_search"
+            app:layout_constraintBottom_toBottomOf="@+id/team2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/team2"
+            app:layout_constraintTop_toTopOf="@+id/team2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/matchups"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="@{viewModel.resultVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_team1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_matchup" />
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@color/colorTextPrimary"
+            android:text="@{viewModel.summary}"
+            android:textStyle="bold"
+            android:visibility="@{viewModel.resultVisibility}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/barrier"
+            tools:text="summary" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="btn_query,textView,team2,team1"
+            tools:layout_editor_absoluteY="602dp" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="@{viewModel.progressVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/barrier"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <TextView
+            android:id="@+id/text_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:singleLine="false"
+            android:text="@{viewModel.infoMessage}"
+            android:textColor="@color/colorTextSecond"
+            android:textSize="18sp"
+            android:visibility="@{viewModel.infoMessageVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/barrier"
+            app:layout_constraintVertical_bias="0.2"
+            tools:text="@string/default_info_message" />
+
+        <!--color background-->
+        <View
+            android:id="@+id/background_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorSecond"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/text_team2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_team2" />
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/time"
+            android:visibility="@{viewModel.resultVisibility}"
+            app:layout_constraintBottom_toTopOf="@+id/matchups"
+            app:layout_constraintEnd_toStartOf="@+id/text_team1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/summary" />
+
+        <TextView
+            android:id="@+id/text_team1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/home"
+            android:visibility="@{viewModel.resultVisibility}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_time"
+            app:layout_constraintEnd_toStartOf="@+id/text_team2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/text_time"
+            tools:text="Brazil" />
+
+        <TextView
+            android:id="@+id/text_team2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/visitor"
+            android:visibility="@{viewModel.resultVisibility}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_team1"
+            app:layout_constraintEnd_toStartOf="@+id/text_competition"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/text_team1"
+            tools:text="Germany" />
+
+        <TextView
+            android:id="@+id/text_competition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="@string/competition"
+            android:visibility="@{viewModel.resultVisibility}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_team2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@+id/text_team2"
+            tools:text="Competition" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+

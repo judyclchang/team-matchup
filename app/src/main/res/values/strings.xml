@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Matchup History</string>
+    <string name="default_info_message">Select teams above and search their matchup history.</string>
+    <string name="error_info_message">No history record found!</string>
+    <string name="summary">%s won:%d, lost: %d, drawn: %d</string>
+    <string name="time">Time</string>
+    <string name="competition">Competition</string>
+    <string name="home">Home</string>
+    <string name="visitor">Visitor</string>
+    <string name="vs">v.s.</string>
+
+
+    <!--<string-array name="teams">-->
+        <!--<item>Mexico</item>-->
+        <!--<item>Egypt</item>-->
+        <!--<item>Jamaica</item>-->
+        <!--<item>Jordan</item>-->
+        <!--<item>Chile</item>-->
+        <!--<item>Costa Rica</item>-->
+        <!--<item>Brazil</item>-->
+        <!--<item>Senegal</item>-->
+        <!--<item>Eswatini</item>-->
+        <!--<item>Oman</item>-->
+        <!--<item>New Zealand</item>-->
+        <!--<item>Rwanda</item>-->
+        <!--<item>Germany</item>-->
+    <!--</string-array>-->
+</resources>
